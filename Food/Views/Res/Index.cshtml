@@ -1,0 +1,14 @@
+<ul>
+  @foreach (var res in Model)
+  {
+      <li><a href=/res/@res.GetId()>@res.GetName()
+      <ul>
+        <li>@res.GetPrimaryKey()</li>
+        @if(res.GetSecondaryKey() != "")
+        {
+          <li>@res.GetSecondaryKey()</li>
+        }
+      </ul>
+      </a></li>
+  }
+</ul>
