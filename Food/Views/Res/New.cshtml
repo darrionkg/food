@@ -1,0 +1,24 @@
+<form class="" action="/Res" method="post">
+  <label for="name">Name: </label>
+  <input id="name" name="name" type="text"><br><br>
+  <label for="description">Description: </label>
+  <input id="description" name="description" type="text"><br><br>
+  <label for="primary">Primary Cuisine: </label>
+  <select name="primary">
+    @foreach(var cuisine in Model)
+    {
+      <option value="@cuisine.GetId()">@cuisine.GetName()</option>
+    }
+  </select>
+  <br>
+  <label for="secondary">Secondary Cuisine: </label>
+  <select name="secondary">
+    <option value = "0"> N/A </option>
+    @foreach(var cuisine in Model)
+    {
+      <option value="@cuisine.GetId()">@cuisine.GetName()</option>
+    }
+</select>
+<br><br>
+<button type="submit">Submit</button>
+</form>

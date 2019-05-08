@@ -16,11 +16,18 @@ namespace Food.Controllers
     //   return View(counter);
     // }
 
-    [HttpGet("/Res/")]
+    [HttpGet("/Res")]
     public ActionResult Index()
     {
         List<Res> allCounters = Res.GetAll();
         return View(allCounters);
+    }
+
+    [HttpGet("/Res/search")]
+    public ActionResult Search()
+    {
+        List<Cuisine> allFood = Cuisine.GetAll();
+        return View(allFood);
     }
     //
     // [HttpGet("/Furballs/date")]
@@ -29,12 +36,32 @@ namespace Food.Controllers
     //     List<Furballs> allCounters = Furballs.GetAll("date_of_admittance");
     //     return View("Index",allCounters);
     // }
-    // [HttpGet("/Furballs/new")]
-    // public ActionResult New()
-    // {
-    //
-    //     return View();
-    // }
+    [HttpGet("/Res/new")]
+    public ActionResult New()
+    {
+        List<Cuisine> allFood = Cuisine.GetAll();
+        return View(allFood);
+    }
+
+    [HttpPost("/Res")]
+    public ActionResult Create(string name, string description, string primary, string secondary)
+    {
+      Res rest = new Res();
+      rest.SetName(name);
+      rest.SetDescription(description);
+      rest.SetPrimaryKey(int.Parse(primary));
+      rest.SetSecondaryKey(int.Parse(secondary));
+      rest.Save();
+      return RedirectToAction("Index");
+    }
+
+    [HttpPost("/Res/search")]
+    public ActionResult Create(string cuisine)
+    {
+      List<Res> allFood = Cuisine.GetSome(cuisine);
+      return View("Index", allFood);
+    }
+
     // [HttpPost("/Furballs/")]
     // public ActionResult Create(string type, string name, string breed, string sex)
     // {

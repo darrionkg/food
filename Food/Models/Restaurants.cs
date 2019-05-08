@@ -9,12 +9,12 @@ namespace Food.Models
     private string _name;
     private int _id;
     private string _description;
-    private string _primaryKey;
-    private string _secondaryKey;
+    private int _primaryKey;
+    private int _secondaryKey;
 
     public Res()
     {
-      _secondaryKey = "";
+      _secondaryKey = 0;
     }
 
     public string GetName()
@@ -49,22 +49,45 @@ namespace Food.Models
 
     public string GetPrimaryKey()
     {
-      return _primaryKey;
+      return Cuisine.GetCuisine(_primaryKey);
     }
 
     public void SetPrimaryKey(int primaryKey)
     {
-      _primaryKey = Cuisine.GetCuisine(primaryKey);
+      _primaryKey = primaryKey;
     }
 
     public string GetSecondaryKey()
     {
-      return _secondaryKey;
+      if(_secondaryKey > 0)
+      {
+        return Cuisine.GetCuisine(_secondaryKey);
+      }
+      return "0";
     }
 
     public void SetSecondaryKey(int secondaryKey)
     {
-      _secondaryKey = Cuisine.GetCuisine(secondaryKey);
+      _secondaryKey = secondaryKey;
+    }
+
+    public void Save()
+    {
+      string checkNull = "NULL";
+      if (_secondaryKey > 0)
+      {
+        checkNull = "'"+_secondaryKey+"'";
+      }
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO `restaurant` (`name`, `description`, `primarycuisine`, `secondarycuisine`) VALUES ('"+_name+"', '"+_description+"', '"+_primaryKey+"', "+checkNull+");";
+      cmd.ExecuteNonQuery();
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
     }
 
     // public Cuisine GetCuisine(string check)

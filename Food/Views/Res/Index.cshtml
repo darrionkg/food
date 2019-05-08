@@ -4,7 +4,7 @@
       <li><a href=/res/@res.GetId()>@res.GetName()
       <ul>
         <li>@res.GetPrimaryKey()</li>
-        @if(res.GetSecondaryKey() != "")
+        @if(res.GetSecondaryKey() != "0")
         {
           <li>@res.GetSecondaryKey()</li>
         }
@@ -12,3 +12,6 @@
       </a></li>
   }
 </ul>
+
+<a href="/res/new"> ADD FOOD</a>
+<a href="/res/search"> SEARCH FOR FINE CUISINE

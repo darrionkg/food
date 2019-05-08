@@ -56,7 +56,7 @@ namespace Food.Models
       return retString;
     }
 
-    public List<Cuisine> GetAll()
+    public static List<Cuisine> GetAll()
     {
       List<Cuisine> allItems = new List<Cuisine> {};
       MySqlConnection conn = DB.Connection();
@@ -69,6 +69,38 @@ namespace Food.Models
         Cuisine newItem = new Cuisine();
         newItem.SetName(rdr.GetString(0));
         newItem.SetId(rdr.GetInt32(1));
+        allItems.Add(newItem);
+      }
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+      return allItems;
+    }
+
+    public static List<Res> GetSome(string cuisine)
+    {
+      
+      int num = int.Parse(cuisine);
+      List<Res> allItems = new List<Res> {};
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM `restaurant` WHERE `primarycuisine` = "+num+" or `secondarycuisine` = "+num+";";
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      while(rdr.Read())
+      {
+        Res newItem = new Res();
+        newItem.SetName(rdr.GetString(1));
+        newItem.SetId(rdr.GetInt32(0));
+        newItem.SetDescription(rdr.GetString(2));
+        newItem.SetPrimaryKey(rdr.GetInt32(3));
+        if(rdr.IsDBNull(4) == false)
+        {
+          newItem.SetSecondaryKey(rdr.GetInt32(4));
+        }
+          allItems.Add(newItem);
       }
       conn.Close();
       if (conn != null)

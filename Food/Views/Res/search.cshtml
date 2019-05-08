@@ -1,0 +1,9 @@
+<form class="" action="/Res/search" method="post">
+<select name="cuisine">
+  @foreach(var cuisine in Model)
+  {
+    <option value="@cuisine.GetId()">@cuisine.GetName()</option>
+  }
+</select>
+<button type="submit">SEARCH FOR FINE CUISINE</button>
+</form>
